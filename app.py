@@ -1,11 +1,12 @@
 
 from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3
+import os
 
 app = Flask(__name__)
 app.secret_key = "taskflow-secret-key"
 
-DATABASE = "database.db"
+DATABASE = os.path.join(app.root_path, "database.db")
 
 
 # Database connection
@@ -134,6 +135,7 @@ def delete_task(id):
     return redirect(url_for('index'))
 
 
+init_db()
+
 if __name__ == '__main__':
-    init_db()
     app.run(debug=True)
