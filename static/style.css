@@ -1,0 +1,22 @@
+
+body {
+    background-color: #f4f6f9;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    padding: 15px 0;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+}
+
+.form-control {
+    padding: 11px;
+}
+
+.btn {
+    border-radius: 7px;
+}

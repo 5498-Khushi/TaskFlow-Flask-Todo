@@ -1,0 +1,106 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <h2 class="mb-2">My Tasks</h2>
+        <p class="text-muted">Organize your day and stay productive.</p>
+
+        <!-- Add Task Form -->
+        <div class="card shadow-sm p-4 mb-4">
+
+            <h5 class="mb-3">Add a New Task</h5>
+
+            <form action="/add" method="POST">
+
+                <div class="mb-3">
+                    <input type="text"
+                           name="title"
+                           class="form-control"
+                           placeholder="Enter task title"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <textarea name="description"
+                              class="form-control"
+                              placeholder="Task description (optional)"
+                              rows="2"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    + Add Task
+                </button>
+
+            </form>
+        </div>
+
+        <!-- Task List -->
+        <h5 class="mb-3">Your Task List</h5>
+
+        {% if tasks %}
+
+            {% for task in tasks %}
+
+                <div class="card shadow-sm mb-3 p-3">
+
+                    <div class="d-flex justify-content-between align-items-start">
+
+                        <div>
+                            <h5 class="{% if task.completed %}text-decoration-line-through text-muted{% endif %}">
+                                {{ task.title }}
+                            </h5>
+
+                            <p class="text-muted mb-2">
+                                {{ task.description or 'No description' }}
+                            </p>
+
+                            {% if task.completed %}
+                                <span class="badge bg-success">Completed</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2">
+
+                            <form action="/toggle/{{ task.id }}" method="POST">
+                                <button class="btn btn-sm btn-outline-success">
+                                    {% if task.completed %}Undo{% else %}Complete{% endif %}
+                                </button>
+                            </form>
+
+                            <a href="/edit/{{ task.id }}"
+                               class="btn btn-sm btn-outline-primary">
+                                Edit
+                            </a>
+
+                            <form action="/delete/{{ task.id }}" method="POST"
+                                  onsubmit="return confirm('Delete this task?')">
+                                <button class="btn btn-sm btn-outline-danger">
+                                    Delete
+                                </button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="alert alert-info">
+                No tasks available. Add your first task!
+            </div>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
